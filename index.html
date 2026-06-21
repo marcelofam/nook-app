@@ -391,7 +391,7 @@ ov.className='overlay';
 ov.innerHTML='<div class="modal"><h2>'+(firstTime?'Bem-vindo ao Nook':'Seu acesso')+'</h2><p>'+(firstTime?'Digite o codigo de acesso que voce recebeu ao adquirir o Nook. Ele fica salvo neste aparelho, entao voce so precisa fazer isso uma vez.':'Atualize seu codigo de acesso se precisar.')+'</p><input type="text" id="key-input" placeholder="Seu codigo de acesso" value="'+esc(cur)+'" autocomplete="off"><div class="modal-actions">'+(firstTime?'':'<button class="btn btn-ghost" id="cancel-btn">Cancelar</button>')+'<button class="btn" id="save-btn">Entrar</button></div><p class="note">Nao tem um codigo? Ele e enviado a voce ao adquirir o acesso ao Nook.</p></div>';
 document.body.appendChild(ov);
 const inp=ov.querySelector('#key-input');inp.focus();
-ov.querySelector('#save-btn').onclick=function(){const v=inp.value.trim();if(!v){inp.focus();return}setKey(v);document.body.removeChild(ov)};
+ov.querySelector('#save-btn').onclick=function(){const v=inp.value.trim();if(!v){inp.focus();return}setKey(v);document.body.removeChild(ov);if(firstTime)render();};
 const cb=ov.querySelector('#cancel-btn');if(cb)cb.onclick=function(){document.body.removeChild(ov)};
 ov.onclick=function(e){if(e.target===ov&&!firstTime)document.body.removeChild(ov)};
 }
