@@ -155,8 +155,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
 
 <script>
 const KEY_STORAGE='nook_access';
-function getKey(){return localStorage.getItem(KEY_STORAGE)||''}
-function setKey(k){localStorage.setItem(KEY_STORAGE,k)}
+function getKey(){return localStorage.getItem('nook_access')||localStorage.getItem('nook_apikey')||''}
+function setKey(k){localStorage.setItem('nook_access',k);localStorage.setItem('nook_apikey',k)}
 function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
 const EXAMPLES=[
@@ -191,7 +191,7 @@ return '<section class="hero">'
 
 function renderBooksLoading(){
 let sk='';
-for(let i=0;i<5;i++)sk+='<div class="book-card"><div class="skeleton" style="width:46px;height:62px;border-radius:5px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton sk w70"></div><div class="skeleton sk w30" style="height:11px"></div><div class="skeleton sk w100" style="margin-top:9px"></div></div></div>';
+for(let i=0;i<3;i++)sk+='<div class="book-card"><div class="skeleton" style="width:46px;height:62px;border-radius:5px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton sk w70"></div><div class="skeleton sk w30" style="height:11px"></div><div class="skeleton sk w100" style="margin-top:9px"></div></div></div>';
 return '<button class="back-btn" id="back-home">'+arrowL+' Voltar</button><div class="recap"><div class="recap-label">'+esc(state.recapLabel)+'</div>'+esc(state.recapValue)+'</div>'+sk;
 }
 
@@ -266,16 +266,15 @@ return ctx+'Voce e o Nook, um "coach de bolso" pratico e direto. Sua missao e pe
 }
 
 async function callAPI(prompt,tokens){
-const resp=await fetch('/.netlify/functions/generate',{
+const resp=await fetch('https://api.anthropic.com/v1/messages',{
 method:'POST',
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({access_code:getKey(),prompt:prompt,max_tokens:tokens||2000})
+headers:{'Content-Type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:tokens||2000,messages:[{role:'user',content:prompt}]})
 });
 if(!resp.ok){
-let msg='Erro '+resp.status;
-try{const e=await resp.json();if(e.error)msg=e.error;}catch(_){}
-if(resp.status===401){openSettings(true);throw new Error(msg);}
-throw new Error(msg);
+const t=await resp.text();
+if(resp.status===401)throw new Error('Chave de API invalida. Toque na engrenagem para conferir.');
+throw new Error('Erro '+resp.status+': '+t.slice(0,120));
 }
 const res=await resp.json();
 if(res.stop_reason==='max_tokens')throw new Error('A resposta veio longa demais e foi cortada. Tente de novo.');
@@ -296,8 +295,19 @@ v.prepend(div);
 
 async function searchBooks(refresh){
 if(!getKey()){openSettings(true);return}
-const val=refresh?state.problem:document.getElementById('problem').value.trim();
-if(!val){document.getElementById('problem').focus();return}
+let val;
+if(refresh===true){
+val=state.problem;
+}else{
+const el=document.getElementById('problem');
+if(!el){return}
+val=el.value.trim();
+}
+if(!val){
+const el=document.getElementById('problem');
+if(el)el.focus();
+return;
+}
 state.problem=val;state.screen='books';
 state.byAuthorMode=false;state.recapLabel='Procurando para';state.recapValue=val;
 document.getElementById('view').innerHTML=renderBooksLoading();
@@ -388,10 +398,10 @@ function openSettings(firstTime){
 const cur=getKey();
 const ov=document.createElement('div');
 ov.className='overlay';
-ov.innerHTML='<div class="modal"><h2>'+(firstTime?'Bem-vindo ao Nook':'Seu acesso')+'</h2><p>'+(firstTime?'Digite o codigo de acesso que voce recebeu ao adquirir o Nook. Ele fica salvo neste aparelho, entao voce so precisa fazer isso uma vez.':'Atualize seu codigo de acesso se precisar.')+'</p><input type="text" id="key-input" placeholder="Seu codigo de acesso" value="'+esc(cur)+'" autocomplete="off"><div class="modal-actions">'+(firstTime?'':'<button class="btn btn-ghost" id="cancel-btn">Cancelar</button>')+'<button class="btn" id="save-btn">Entrar</button></div><p class="note">Nao tem um codigo? Ele e enviado a voce ao adquirir o acesso ao Nook.</p></div>';
+ov.innerHTML='<div class="modal"><h2>Sua chave</h2><p>'+(firstTime?'Para o Nook funcionar, cole sua chave da API da Anthropic. Ela fica salva so neste aparelho.':'Atualize sua chave da API se precisar.')+'</p><input type="password" id="key-input" placeholder="sk-ant-..." value="'+esc(cur)+'" autocomplete="off"><div class="modal-actions">'+(firstTime?'':'<button class="btn btn-ghost" id="cancel-btn">Cancelar</button>')+'<button class="btn" id="save-btn">Salvar</button></div><p class="note">Sua chave nunca sai deste dispositivo. Pegue em console.anthropic.com, em API Keys.</p></div>';
 document.body.appendChild(ov);
 const inp=ov.querySelector('#key-input');inp.focus();
-ov.querySelector('#save-btn').onclick=function(){const v=inp.value.trim();if(!v){inp.focus();return}setKey(v);document.body.removeChild(ov);if(firstTime)render();};
+ov.querySelector('#save-btn').onclick=function(){const v=inp.value.trim();if(!v){inp.focus();return}setKey(v);document.body.removeChild(ov)};
 const cb=ov.querySelector('#cancel-btn');if(cb)cb.onclick=function(){document.body.removeChild(ov)};
 ov.onclick=function(e){if(e.target===ov&&!firstTime)document.body.removeChild(ov)};
 }
