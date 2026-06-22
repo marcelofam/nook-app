@@ -2,73 +2,413 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#3D3A55">
-<meta name="description" content="Seu cantinho de sabedoria. Livros que viram ação, no seu bolso.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="nookbook">
+<meta name="description" content="Seu cantinho de sabedoria. Livros viram acao, no seu bolso.">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<title>nookbook — Seu cantinho de sabedoria</title>
+<title>nookbook</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#F3EFE6;--surface:#FBF9F4;--ink:#272338;--ink2:#5C5870;--ink3:#9A96A8;
+--indigo:#3D3A55;--indigo2:#4D4A68;--gold:#E9A23B;--goldL:#F7EAD2;--goldT:#9A6516;
+--line:rgba(39,35,56,.09);--lineS:rgba(39,35,56,.16);
+--r:16px;--rs:11px;
+--serif:'Fraunces',Georgia,serif;--sans:'Inter',-apple-system,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{
+--bg:#191622;--surface:#221E2E;--ink:#EDEAF2;--ink2:#ABA6BC;--ink3:#6E6982;
+--indigo:#7B76A0;--indigo2:#8A85AE;--gold:#F0B254;--goldL:#2E2517;--goldT:#F0B254;
+--line:rgba(255,255,255,.08);--lineS:rgba(255,255,255,.15);
+}}
 html{font-size:16px;-webkit-text-size-adjust:100%}
-body{font-family:'Inter',-apple-system,sans-serif;background:#3D3A55;color:#F3EFE6;min-height:100vh;-webkit-font-smoothing:antialiased}
-a{text-decoration:none}
-.nav{display:flex;align-items:center;justify-content:flex-end;padding:24px 36px}
-.nav-enter{font-size:13px;font-weight:600;color:rgba(243,239,230,.7);padding:8px 18px;border:1.5px solid rgba(243,239,230,.25);border-radius:99px;transition:all .15s}
-.nav-enter:hover{color:#F3EFE6;border-color:rgba(243,239,230,.5)}
-.hero{text-align:center;padding:36px 24px 48px;display:flex;flex-direction:column;align-items:center}
-.logo-group{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:28px}
-.brand-name{font-family:'Fraunces',Georgia,serif;font-size:48px;font-weight:600;letter-spacing:-.02em;color:#F3EFE6;line-height:1}
-.eyebrow{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#E9A23B;margin-bottom:14px}
-.hero-title{font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:500;line-height:1.2;letter-spacing:-.02em;color:#F3EFE6;max-width:440px;margin-bottom:16px}
-.hero-sub{font-size:15px;line-height:1.7;color:rgba(243,239,230,.65);max-width:360px;margin-bottom:36px}
-.cta{display:inline-block;padding:14px 36px;background:#E9A23B;color:#272338;font-size:15px;font-weight:600;border-radius:12px;font-family:'Inter',sans-serif;transition:opacity .15s}
-.cta:hover{opacity:.88}
-.divider{width:44px;height:2px;background:rgba(233,162,59,.4);border-radius:2px;margin:48px auto 40px}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 28px;max-width:640px;margin:0 auto}
-@media(max-width:520px){.features{grid-template-columns:1fr}.nav{padding:20px 22px}}
-.feat{background:rgba(255,255,255,.07);border-radius:16px;padding:20px;border:1px solid rgba(243,239,230,.1)}
-.feat-title{font-family:'Fraunces',Georgia,serif;font-size:15px;font-weight:500;color:#F3EFE6;margin:12px 0 6px}
-.feat-desc{font-size:13px;line-height:1.6;color:rgba(243,239,230,.55)}
-.footer{text-align:center;padding:44px 24px 28px;font-size:12px;color:rgba(243,239,230,.3)}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:env(safe-area-inset-bottom,28px);-webkit-font-smoothing:antialiased}
+.app{max-width:480px;margin:0 auto;padding:0 22px}
+.header{padding:22px 0 18px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:34px;height:34px;display:flex;align-items:center;justify-content:center}
+.brand-name{font-family:var(--serif);font-size:23px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+.gear{background:none;border:none;color:var(--ink3);cursor:pointer;padding:6px;display:flex;border-radius:8px}
+.gear:active{background:var(--line)}
+
+.hero{margin-bottom:22px}
+.hero-eyebrow{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.hero-title{font-family:var(--serif);font-size:30px;font-weight:500;line-height:1.15;letter-spacing:-.02em;color:var(--ink);margin-bottom:10px}
+.hero-sub{font-size:15px;line-height:1.6;color:var(--ink2)}
+
+.field-label{font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:8px}
+.problem-input{width:100%;min-height:104px;padding:15px;border:1.5px solid var(--lineS);border-radius:var(--r);background:var(--surface);color:var(--ink);font-size:16px;line-height:1.55;font-family:inherit;resize:vertical;margin-bottom:12px;transition:border-color .15s}
+.problem-input::placeholder{color:var(--ink3)}
+.problem-input:focus{outline:none;border-color:var(--indigo)}
+.examples{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.chip{font-size:13px;padding:7px 13px;border-radius:99px;border:1px solid var(--lineS);background:transparent;color:var(--ink2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;font-family:inherit}
+.chip:active{background:var(--line)}
+.btn{width:100%;padding:15px 18px;border-radius:var(--rs);font-size:16px;font-weight:600;border:none;background:var(--indigo);color:#FBF9F4;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;-webkit-tap-highlight-color:transparent;font-family:inherit;transition:opacity .15s}
+.btn:active{opacity:.8}
+.btn:disabled{opacity:.45;pointer-events:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--lineS)}
+.btn .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0}
+
+.or-divider{display:flex;align-items:center;text-align:center;margin:28px 0 22px;color:var(--ink3);font-size:12px;font-weight:500}
+.or-divider::before,.or-divider::after{content:'';flex:1;border-top:1px solid var(--line)}
+.or-divider span{padding:0 14px;text-transform:uppercase;letter-spacing:.1em}
+.title-input{width:100%;padding:14px 15px;border:1.5px solid var(--lineS);border-radius:var(--r);background:var(--surface);color:var(--ink);font-size:16px;font-family:inherit;transition:border-color .15s}
+.title-input::placeholder{color:var(--ink3)}
+.title-input:focus{outline:none;border-color:var(--indigo)}
+
+.back-btn{background:none;border:none;color:var(--indigo);font-size:14px;font-weight:600;cursor:pointer;padding:6px 0;margin-bottom:16px;display:flex;align-items:center;gap:6px;font-family:inherit}
+.recap{position:relative;font-size:14px;color:var(--ink2);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px 14px 18px;margin-bottom:22px;line-height:1.5;overflow:hidden}
+.recap::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold)}
+.recap-label{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+
+.group-label{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--ink);margin:22px 0 12px;display:flex;align-items:center;gap:9px;letter-spacing:-.01em}
+.group-label:first-of-type{margin-top:0}
+.group-label .gdot{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+
+.book-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--line);padding:17px;margin-bottom:12px;cursor:pointer;display:flex;gap:15px;align-items:flex-start;-webkit-tap-highlight-color:transparent;transition:transform .12s,border-color .15s}
+.book-card:active{transform:scale(.985);border-color:var(--lineS)}
+.book-spine{flex-shrink:0;width:46px;height:62px;background:var(--indigo);border-radius:3px 6px 6px 3px;display:flex;align-items:center;justify-content:center;position:relative}
+.book-spine::before{content:'';position:absolute;left:6px;top:7px;bottom:7px;width:1.5px;background:rgba(251,249,244,.25);border-radius:2px}
+.book-spine .bdot{width:10px;height:10px;border-radius:50%;background:var(--gold)}
+.book-info{flex:1;min-width:0}
+.book-title{font-family:var(--serif);font-size:16px;font-weight:600;line-height:1.25;color:var(--ink);margin-bottom:3px;letter-spacing:-.01em}
+.book-author{font-size:12.5px;color:var(--ink3);margin-bottom:8px}
+.book-why{font-size:13.5px;color:var(--ink2);line-height:1.5}
+.book-arrow{flex-shrink:0;color:var(--ink3);align-self:center;display:flex}
+
+.detail-head{margin-bottom:18px}
+.detail-kicker{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.detail-title{font-family:var(--serif);font-size:27px;font-weight:500;line-height:1.18;letter-spacing:-.02em;color:var(--ink)}
+.detail-author{font-size:14px;color:var(--ink3);margin-top:5px}
+.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--line);padding:19px;margin-bottom:13px}
+.chap-tag{display:inline-block;font-size:12px;font-weight:500;padding:4px 11px;border-radius:99px;background:var(--goldL);color:var(--goldT);margin-bottom:11px}
+.label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.idea-card{background:var(--indigo);border:none}
+.idea-card .label{color:rgba(251,249,244,.6)}
+.idea-text{font-family:var(--serif);font-size:18px;line-height:1.5;color:#FBF9F4;font-weight:500;letter-spacing:-.01em}
+.summary-text{font-size:14.5px;line-height:1.72;color:var(--ink2)}
+.concept{margin-bottom:15px}
+.concept:last-child{margin-bottom:0}
+.concept-name{font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:5px;display:flex;align-items:center;gap:8px}
+.concept-name::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.concept-explain{font-size:13.5px;line-height:1.65;color:var(--ink2);padding-left:14px}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.step{display:flex;gap:13px;align-items:flex-start;margin-bottom:13px}
+.step:last-child{margin-bottom:0}
+.step-num{flex-shrink:0;width:25px;height:25px;border-radius:50%;background:var(--indigo);color:#FBF9F4;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.step-text{font-size:14.5px;line-height:1.55;color:var(--ink)}
+.mistake-card{background:var(--goldL);border:none}
+.mistake-card .label{color:var(--goldT)}
+.mistake-card .summary-text{color:var(--goldT)}
+.take-card{border:1.5px dashed var(--lineS);background:transparent}
+.take-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px}
+.take-text{font-family:var(--serif);font-size:16px;font-weight:500;line-height:1.45;color:var(--ink);font-style:italic}
+.care-card{background:var(--indigo);border:none;display:flex;gap:13px;align-items:flex-start}
+.care-icon{flex-shrink:0;display:flex;margin-top:1px}
+.care-text{font-size:13.5px;line-height:1.65;color:#E8E5F0}
+
+.skeleton{background:var(--line);border-radius:7px;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.sk{height:14px;margin-bottom:9px}.sk.w30{width:30%}.sk.w50{width:50%}.sk.w70{width:70%}.sk.w100{width:100%}.sk.h70{height:70px}
+.error{background:var(--goldL);border-radius:var(--rs);padding:15px;font-size:14px;color:var(--goldT);line-height:1.6;margin-bottom:13px}
+
+.overlay{position:fixed;inset:0;background:rgba(25,22,34,.55);display:flex;align-items:center;justify-content:center;padding:26px;z-index:50;backdrop-filter:blur(3px)}
+.modal{background:var(--surface);border-radius:var(--r);padding:26px;max-width:400px;width:100%}
+.modal h2{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:9px;letter-spacing:-.01em}
+.modal p{font-size:14px;color:var(--ink2);line-height:1.6;margin-bottom:17px}
+.modal input{width:100%;padding:12px 13px;border:1.5px solid var(--lineS);border-radius:var(--rs);background:var(--bg);color:var(--ink);font-size:14px;margin-bottom:17px;font-family:var(--sans)}
+.modal input:focus{outline:none;border-color:var(--indigo)}
+.modal-actions{display:flex;gap:9px}
+.modal-actions .btn{font-size:15px;padding:12px}
+.note{font-size:12px;color:var(--ink3);line-height:1.5;margin-top:13px}
+.footer-care{text-align:center;font-size:12px;color:var(--ink3);line-height:1.6;padding:24px 8px 8px}
+.footer-care a{color:var(--indigo);font-weight:600;text-decoration:none}
 </style>
 </head>
 <body>
-<nav class="nav">
-  <a href="/app" class="nav-enter">Entrar</a>
-</nav>
-<section class="hero">
-  <div class="logo-group">
-    <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
-      <path d="M22 80 L22 44 A28 28 0 0 1 78 44 L78 80" fill="none" stroke="#F3EFE6" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="50" cy="57" r="9.5" fill="#E9A23B"/>
-    </svg>
-    <div class="brand-name">nookbook</div>
-  </div>
-  <div class="eyebrow">Seu cantinho de sabedoria</div>
-  <h1 class="hero-title">Livros que viram ação, no seu bolso.</h1>
-  <p class="hero-sub">Conte o que você está vivendo agora. O Nook encontra os livros certos e te mostra, de forma simples, o que fazer na prática.</p>
-  <a href="/app" class="cta">Começar agora &rarr;</a>
-</section>
-<div class="divider"></div>
-<div class="features">
-  <div class="feat">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E9A23B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    <div class="feat-title">Rápido e direto</div>
-    <div class="feat-desc">Sem precisar ler o livro inteiro. O Nook extrai o que importa pra você agora.</div>
-  </div>
-  <div class="feat">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E9A23B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-    <div class="feat-title">11 livros por busca</div>
-    <div class="feat-desc">Autoconhecimento, psicologia e filosofia — o melhor de cada área pra o seu momento.</div>
-  </div>
-  <div class="feat">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E9A23B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-    <div class="feat-title">Foco em ação</div>
-    <div class="feat-desc">Passos práticos que você aplica hoje. Não teoria — o que fazer de verdade.</div>
-  </div>
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
+          <rect width="100" height="100" rx="24" fill="#3D3A55"/>
+          <path d="M32 74 L32 50 A18 18 0 0 1 68 50 L68 74" fill="none" stroke="#F3EFE6" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="50" cy="54" r="7" fill="#E9A23B"/>
+        </svg>
+      </div>
+      <span class="brand-name">nookbook</span>
+    </div>
+    <button class="gear" id="gear" aria-label="Configuracoes">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+  <main id="view"></main>
 </div>
-<div class="footer">nookbook.me</div>
+
+<script>
+const KEY_STORAGE='nook_access';
+function getKey(){return localStorage.getItem('nook_access')||localStorage.getItem('nook_apikey')||''}
+function setKey(k){localStorage.setItem('nook_access',k);localStorage.setItem('nook_apikey',k)}
+function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+const EXAMPLES=[
+'Nao consigo focar, ando ansioso e entediado',
+'Tenho medo de falar em publico',
+'Preciso ter uma conversa dificil e estou travado',
+'Cedo demais e nao sei me posicionar',
+'Procrastino e nao termino o que comeco'
+];
+
+let state={screen:'home',problem:'',books:[],fromList:true,recapLabel:'Procurando para',recapValue:'',byAuthorMode:false};
+
+const arrowR='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const arrowL='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const heartSvg='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E9A23B" stroke-width="1.8"><path d="M12 21s-7-4.5-9.5-8.5C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.5 0 5 3.5 3.5 7C19 16.5 12 21 12 21z" stroke-linejoin="round"/></svg>';
+
+function renderHome(){
+return '<section class="hero">'
++'<div class="hero-eyebrow">Seu cantinho de sabedoria</div>'
++'<h1 class="hero-title">O que voce esta vivendo agora?</h1>'
++'<p class="hero-sub">Conte em poucas palavras. O Nook encontra os livros certos e te mostra, de forma simples, o que fazer na pratica.</p>'
++'</section>'
++'<textarea class="problem-input" id="problem" placeholder="Ex: Ando sem foco, ansioso e entediado, e nao consigo terminar o que comeco...">'+esc(state.problem)+'</textarea>'
++'<div class="examples" id="examples"></div>'
++'<button class="btn" id="search-btn"><span class="dot"></span> Encontrar meus livros</button>'
++'<div class="or-divider"><span>ou</span></div>'
++'<div class="field-label">Ja tem um livro em mente?</div>'
++'<input type="text" class="title-input" id="book-title" placeholder="Titulo do livro, em portugues ou ingles">'
++'<input type="text" class="title-input" id="book-author" placeholder="Autor (opcional)" style="margin-top:9px">'
++'<button class="btn btn-ghost" id="direct-btn" style="margin-top:11px">Ver o que fazer com ele</button>';
+}
+
+function renderBooksLoading(){
+let sk='';
+for(let i=0;i<3;i++)sk+='<div class="book-card"><div class="skeleton" style="width:46px;height:62px;border-radius:5px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton sk w70"></div><div class="skeleton sk w30" style="height:11px"></div><div class="skeleton sk w100" style="margin-top:9px"></div></div></div>';
+return '<button class="back-btn" id="back-home">'+arrowL+' Voltar</button><div class="recap"><div class="recap-label">'+esc(state.recapLabel)+'</div>'+esc(state.recapValue)+'</div>'+sk;
+}
+
+function bookCardHtml(b,i){
+return '<div class="book-card" data-idx="'+i+'"><div class="book-spine"><span class="bdot"></span></div><div class="book-info"><div class="book-title">'+esc(b.title)+'</div><div class="book-author">'+esc(b.author)+'</div><div class="book-why">'+esc(b.why)+'</div></div><div class="book-arrow">'+arrowR+'</div></div>';
+}
+
+function renderBooks(){
+let body='';
+if(state.byAuthorMode){
+body='<div class="group-label"><span class="gdot"></span> Livros de '+esc(state.recapValue)+'</div>'+state.books.map((b,i)=>bookCardHtml(b,i)).join('');
+return '<button class="back-btn" id="back-home">'+arrowL+' Nova busca</button>'+body;
+}
+const self=[],psy=[],fil=[];
+state.books.forEach((b,i)=>{
+if(b.category==='psicologia')psy.push(bookCardHtml(b,i));
+else if(b.category==='filosofia')fil.push(bookCardHtml(b,i));
+else self.push(bookCardHtml(b,i));
+});
+if(self.length)body+='<div class="group-label"><span class="gdot"></span> Para se desenvolver</div>'+self.join('');
+if(psy.length)body+='<div class="group-label"><span class="gdot"></span> Para entender sua mente</div>'+psy.join('');
+if(fil.length)body+='<div class="group-label"><span class="gdot"></span> Para pensar diferente</div>'+fil.join('');
+if(!self.length&&!psy.length&&!fil.length)body=state.books.map((b,i)=>bookCardHtml(b,i)).join('');
+const refreshBtn='<button class="btn btn-ghost" id="refresh-books" style="margin-top:8px;margin-bottom:28px">&#8635; Nao gostei — atualizar lista</button>';
+return '<button class="back-btn" id="back-home">'+arrowL+' Nova busca</button><div class="recap"><div class="recap-label">'+esc(state.recapLabel)+'</div>'+esc(state.recapValue)+'</div>'+body+refreshBtn;
+}
+
+function renderDetailLoading(book){
+return '<button class="back-btn" id="back-books">'+arrowL+' Voltar</button><div class="detail-head"><div class="detail-kicker">Do livro</div><div class="detail-title">'+esc(book.title)+'</div><div class="detail-author">'+esc(book.author)+'</div></div><div class="card idea-card"><div class="skeleton sk w50" style="height:14px;margin-bottom:11px;background:rgba(255,255,255,.2)"></div><div class="skeleton sk w100" style="background:rgba(255,255,255,.2)"></div><div class="skeleton sk w70" style="background:rgba(255,255,255,.2)"></div></div><div class="card"><div class="skeleton sk w30" style="height:12px;margin-bottom:13px"></div><div class="skeleton sk w100"></div><div class="skeleton sk w100"></div><div class="skeleton sk w70"></div></div><div class="card"><div class="skeleton sk w30" style="height:12px;margin-bottom:14px"></div><div class="skeleton sk w100" style="height:18px"></div><div class="skeleton sk w100" style="height:18px"></div><div class="skeleton sk w70" style="height:18px"></div></div>';
+}
+
+function renderDetail(book,d){
+let steps='';
+(d.steps||[]).forEach((s,i)=>{steps+='<li class="step"><span class="step-num">'+(i+1)+'</span><span class="step-text">'+esc(s)+'</span></li>'});
+let concepts='';
+(d.key_concepts||[]).forEach(c=>{concepts+='<div class="concept"><div class="concept-name">'+esc(c.name)+'</div><div class="concept-explain">'+esc(c.explain)+'</div></div>'});
+let html='<button class="back-btn" id="back-books">'+arrowL+' Voltar aos livros</button><div class="detail-head"><div class="detail-kicker">Do livro</div><div class="detail-title">'+esc(book.title)+'</div><div class="detail-author">'+esc(book.author)+'</div></div>';
+if(d.central_idea)html+='<div class="card idea-card"><div class="label">A grande sacada</div><p class="idea-text">'+esc(d.central_idea)+'</p></div>';
+html+='<div class="card">'+(d.chapter?'<span class="chap-tag">'+esc(d.chapter)+'</span>':'')+'<div class="label">Resumo</div><p class="summary-text">'+esc(d.summary)+'</p></div>';
+if(concepts)html+='<div class="card"><div class="label">Ideias-chave</div>'+concepts+'</div>';
+html+='<div class="card"><div class="label">O que voce pode fazer</div><ol class="steps">'+steps+'</ol></div>';
+if(d.common_mistake)html+='<div class="card mistake-card"><div class="label">Erro comum a evitar</div><p class="summary-text">'+esc(d.common_mistake)+'</p></div>';
+if(d.example_prompt)html+='<div class="card take-card"><div class="take-label">Leve isso com voce</div><p class="take-text">"'+esc(d.example_prompt)+'"</p></div>';
+if(d.sensitive&&d.care_note)html+='<div class="card care-card"><span class="care-icon">'+heartSvg+'</span><p class="care-text">'+esc(d.care_note)+'</p></div>';
+return html;
+}
+
+function authorBooksPrompt(author){
+return 'Voce e o Nook, um "coach de bolso". A pessoa quer ver os principais livros do autor "'+author+'".\n\nListe ate 5 livros REAIS e mais conhecidos desse autor (titulos e autor corretos). Se o nome estiver incompleto ou com erro de grafia, identifique o autor real. Escreva SIMPLES, falando com a pessoa (use "voce"). Sem jargao.\n\nRetorne APENAS JSON valido, sem markdown:\n{"author_real":"nome correto do autor","books":[{"title":"titulo real","author":"nome do autor","category":"autodesenvolvimento ou psicologia","why":"em 1 frase simples, sobre o que e esse livro e como pode te ajudar"}]}\nInclua de 3 a 5 livros, os mais relevantes. Use a categoria que melhor descreve cada livro.';
+}
+
+function booksPrompt(problem){
+return 'Voce e o Nook, um "coach de bolso" pratico e direto. A pessoa que usa o app esta vivendo isto:\n\n"'+problem+'"\n\nIndique 11 livros REAIS e especificos (titulo e autor corretos) que podem ajudar ESSA PESSOA:\n- 5 livros de autoconhecimento / autodesenvolvimento (categoria "autodesenvolvimento")\n- 3 livros de psicologia (categoria "psicologia")\n- 3 livros de filosofia que ajudam com esse problema (categoria "filosofia")\n\nPode misturar classicos e menos obvios. Escreva SIMPLES e direto, falando COM a pessoa (use "voce"). Sem jargao.\n\nRetorne APENAS JSON valido, sem markdown:\n{"books":[{"title":"titulo real","author":"autor","category":"autodesenvolvimento","why":"em 1 frase simples, como esse livro pode te ajudar"},{"title":"...","author":"...","category":"autodesenvolvimento","why":"..."},{"title":"...","author":"...","category":"autodesenvolvimento","why":"..."},{"title":"...","author":"...","category":"autodesenvolvimento","why":"..."},{"title":"...","author":"...","category":"autodesenvolvimento","why":"..."},{"title":"...","author":"...","category":"psicologia","why":"..."},{"title":"...","author":"...","category":"psicologia","why":"..."},{"title":"...","author":"...","category":"psicologia","why":"..."},{"title":"...","author":"...","category":"filosofia","why":"..."},{"title":"...","author":"...","category":"filosofia","why":"..."},{"title":"...","author":"...","category":"filosofia","why":"..."}]}';
+}
+
+function detailPrompt(book,problem){
+const ctx=problem?('A pessoa que usa o app esta vivendo isto: "'+problem+'".\n'):'';
+const auth=book.author?(' (de '+book.author+')'):'';
+return ctx+'Voce e o Nook, um "coach de bolso" pratico e direto. Sua missao e pegar o que o livro "'+book.title+'"'+auth+' ensina e transformar em acoes que ESSA PESSOA pode fazer hoje, sem precisar ler o livro todo.\n\nEscreva SIMPLES e direto, falando COM a pessoa (use "voce"). Foco total em ACAO. Pode se aprofundar com calma (profundidade media), mas sempre voltado pra pratica pessoal. Se usar termo tecnico, explique logo em palavras simples. Use exemplos do dia a dia.\n\nRetorne APENAS JSON valido, sem markdown:\n{'
++'"book_title":"titulo correto do livro",'
++'"book_author":"autor correto do livro",'
++'"central_idea":"a grande sacada do livro em 2 ou 3 frases simples, falando com voce.",'
++'"chapter":"o capitulo ou parte do livro com a ideia principal'+(problem?' pro seu caso':'')+' (ex: Capitulo 3 - O estado de Flow)",'
++'"summary":"resumo dessa parte em 5 ou 6 frases, explicando com calma o que voce pode aprender ali, com um exemplo se ajudar.",'
++'"key_concepts":[{"name":"nome da ideia-chave 1","explain":"o que e e como se aplica a voce, 2 ou 3 frases com exemplo"},{"name":"ideia 2","explain":"..."},{"name":"ideia 3","explain":"..."}],'
++'"steps":["acao pratica 1 que VOCE pode fazer, frase clara comecando com verbo","acao 2","acao 3"],'
++'"common_mistake":"o erro mais comum ao tentar isso, e como voce evita. 2 ou 3 frases.",'
++'"example_prompt":"uma frase de incentivo ou lembrete pratico pra voce levar com voce",'
++'"sensitive":true ou false (true APENAS se envolver sofrimento emocional serio: depressao, ansiedade intensa, panico, crise, desesperanca, pensamentos de se machucar, luto pesado, vicio ou trauma),'
++'"care_note":"se sensitive for true, escreva uma frase curta, calorosa e respeitosa lembrando que essas tecnicas ajudam mas nao substituem o apoio de um profissional (psicologo/terapeuta), e que procurar ajuda e sinal de forca. Se sensitive for false, deixe string vazia."'
++'}\nUse de 2 a 3 ideias-chave e de 3 a 6 acoes.'+(problem?' Foque no que ajuda VOCE com o que esta vivendo.':'')+' Se o titulo estiver incompleto ou em outra lingua, identifique o livro real e use titulo e autor corretos.';
+}
+
+async function callAPI(prompt,tokens,fast){
+const resp=await fetch('https://api.anthropic.com/v1/messages',{
+method:'POST',
+headers:{'Content-Type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+body:JSON.stringify({model:fast?'claude-haiku-4-5-20251001':'claude-sonnet-4-6',max_tokens:tokens||2000,messages:[{role:'user',content:prompt}]})
+});
+if(!resp.ok){
+const t=await resp.text();
+if(resp.status===401)throw new Error('Chave de API invalida. Toque na engrenagem para conferir.');
+throw new Error('Erro '+resp.status+': '+t.slice(0,120));
+}
+const res=await resp.json();
+if(res.stop_reason==='max_tokens')throw new Error('A resposta veio longa demais e foi cortada. Tente de novo.');
+let raw=res.content.map(c=>c.text||'').join('');
+let clean=raw.replace(/```json|```/g,'').trim();
+const a=clean.indexOf('{'),b=clean.lastIndexOf('}');
+if(a===-1||b===-1||b<a)throw new Error('A resposta nao veio no formato esperado. Tente novamente.');
+return JSON.parse(clean.slice(a,b+1));
+}
+
+function showError(msg){
+const v=document.getElementById('view');
+const div=document.createElement('div');
+div.className='error';
+div.innerHTML='<strong>Nao consegui carregar.</strong><br>'+esc(msg);
+v.prepend(div);
+}
+
+async function searchBooks(refresh){
+if(!getKey()){openSettings(true);return}
+let val;
+if(refresh===true){
+val=state.problem;
+}else{
+const el=document.getElementById('problem');
+if(!el){return}
+val=el.value.trim();
+}
+if(!val){
+const el=document.getElementById('problem');
+if(el)el.focus();
+return;
+}
+state.problem=val;state.screen='books';
+state.byAuthorMode=false;state.recapLabel='Procurando para';state.recapValue=val;
+document.getElementById('view').innerHTML=renderBooksLoading();
+bindBack();
+try{
+const d=await callAPI(booksPrompt(val),2800,true);
+state.books=d.books||[];
+document.getElementById('view').innerHTML=renderBooks();
+bindBack();bindBooks();
+}catch(err){
+document.getElementById('view').innerHTML=renderBooks();
+bindBack();bindBooks();
+showError(err.message);
+}
+}
+
+async function byAuthor(author){
+state.screen='books';state.byAuthorMode=true;
+state.recapLabel='Livros do autor';state.recapValue=author;state.problem='';
+document.getElementById('view').innerHTML=renderBooksLoading();
+bindBack();
+try{
+const d=await callAPI(authorBooksPrompt(author),2000,true);
+state.books=d.books||[];
+if(d.author_real)state.recapValue=d.author_real;
+document.getElementById('view').innerHTML=renderBooks();
+bindBack();bindBooks();
+}catch(err){
+document.getElementById('view').innerHTML=renderBooks();
+bindBack();bindBooks();
+showError(err.message);
+}
+}
+
+async function openBook(idx){state.fromList=true;showDetail(state.books[idx]);}
+async function directBook(){
+if(!getKey()){openSettings(true);return}
+const title=document.getElementById('book-title').value.trim();
+const author=document.getElementById('book-author').value.trim();
+if(!title&&!author){document.getElementById('book-title').focus();return}
+if(!title&&author){byAuthor(author);return}
+state.fromList=false;showDetail({title:title,author:author});
+}
+async function showDetail(book){
+state.screen='detail';
+document.getElementById('view').innerHTML=renderDetailLoading(book);
+bindBackToBooks();
+try{
+const d=await callAPI(detailPrompt(book,state.fromList?state.problem:''),3000);
+const shown={title:d.book_title||book.title,author:d.book_author||book.author};
+document.getElementById('view').innerHTML=renderDetail(shown,d);
+bindBackToBooks();
+}catch(err){
+document.getElementById('view').innerHTML=renderDetailLoading(book);
+bindBackToBooks();
+showError(err.message);
+}
+}
+
+function goHome(){state.screen='home';render()}
+function goBooks(){if(!state.fromList){goHome();return}state.screen='books';document.getElementById('view').innerHTML=renderBooks();bindBack();bindBooks()}
+function bindBack(){const b=document.getElementById('back-home');if(b)b.onclick=goHome}
+function bindBackToBooks(){const b=document.getElementById('back-books');if(b)b.onclick=goBooks}
+function bindBooks(){
+document.querySelectorAll('.book-card').forEach(c=>{c.onclick=function(){openBook(parseInt(c.dataset.idx))}});
+const rb=document.getElementById('refresh-books');
+if(rb)rb.onclick=function(){
+if(state.byAuthorMode)byAuthor(state.recapValue);
+else searchBooks(true);
+};
+}
+
+function render(){
+const v=document.getElementById('view');
+v.innerHTML=renderHome();
+const ex=document.getElementById('examples');
+EXAMPLES.forEach(e=>{
+const c=document.createElement('button');
+c.className='chip';c.textContent=e;
+c.onclick=function(){document.getElementById('problem').value=e};
+ex.appendChild(c);
+});
+document.getElementById('search-btn').onclick=searchBooks;
+document.getElementById('direct-btn').onclick=directBook;
+}
+
+function openSettings(firstTime){
+const cur=getKey();
+const ov=document.createElement('div');
+ov.className='overlay';
+ov.innerHTML='<div class="modal"><h2>Sua chave</h2><p>'+(firstTime?'Para o Nook funcionar, cole sua chave da API da Anthropic. Ela fica salva so neste aparelho.':'Atualize sua chave da API se precisar.')+'</p><input type="password" id="key-input" placeholder="sk-ant-..." value="'+esc(cur)+'" autocomplete="off"><div class="modal-actions">'+(firstTime?'':'<button class="btn btn-ghost" id="cancel-btn">Cancelar</button>')+'<button class="btn" id="save-btn">Salvar</button></div><p class="note">Sua chave nunca sai deste dispositivo. Pegue em console.anthropic.com, em API Keys.</p></div>';
+document.body.appendChild(ov);
+const inp=ov.querySelector('#key-input');inp.focus();
+ov.querySelector('#save-btn').onclick=function(){const v=inp.value.trim();if(!v){inp.focus();return}setKey(v);document.body.removeChild(ov)};
+const cb=ov.querySelector('#cancel-btn');if(cb)cb.onclick=function(){document.body.removeChild(ov)};
+ov.onclick=function(e){if(e.target===ov&&!firstTime)document.body.removeChild(ov)};
+}
+
+document.getElementById('gear').onclick=function(){openSettings(false)};
+render();
+if(!getKey())openSettings(true);
+</script>
 </body>
 </html>
